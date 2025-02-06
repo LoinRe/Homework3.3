@@ -1,6 +1,7 @@
 package Homework.H3W3Database.service;
 
 import Homework.H3W3Database.models.Faculty;
+import Homework.H3W3Database.models.Student;
 
 import java.util.Collection;
 
@@ -14,4 +15,6 @@ public interface FacultyService {
     void removeFaculty(Long id);
 
     Collection<Faculty> findByColor(String color);
+
+    Collection<Student> getStudentsByFacultyId(Long facultyId); // Новый метод
 }

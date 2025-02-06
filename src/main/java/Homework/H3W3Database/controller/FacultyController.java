@@ -1,6 +1,7 @@
 package Homework.H3W3Database.controller;
 
 import Homework.H3W3Database.models.Faculty;
+import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.service.FacultyService;
 import Homework.H3W3Database.service.FacultyServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -48,10 +49,20 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
-        return ResponseEntity.ok(color != null && !color.isBlank() ?
-                facultyService.findByColor(color) :
-                Collections.emptyList());
+//    @GetMapping
+//    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
+//        return ResponseEntity.ok(color != null && !color.isBlank() ?
+//                facultyService.findByColor(color) :
+//                Collections.emptyList());
+//    }
+
+    // Получение студентов факультета
+    @GetMapping("/{id}/students")
+    public ResponseEntity<Collection<Student>> getStudentsByFacultyId(@PathVariable Long id) {
+        Collection<Student> students = facultyService.getStudentsByFacultyId(id);
+        if (students == null || students.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(students);
     }
 }

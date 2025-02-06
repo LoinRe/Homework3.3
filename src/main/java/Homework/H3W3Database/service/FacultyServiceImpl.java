@@ -2,6 +2,7 @@ package Homework.H3W3Database.service;
 
 import Homework.H3W3Database.exception.FacultyNotFoundException;
 import Homework.H3W3Database.models.Faculty;
+import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.repository.FacultyRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,14 @@ public class FacultyServiceImpl implements FacultyService {
                 .stream()
                 .filter(faculty -> Objects.equals(faculty.getColor(), color))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Student> getStudentsByFacultyId(Long facultyId) {
+        Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
+        if (faculty != null) {
+            return faculty.getStudents();
+        }
+        return null;
     }
 }

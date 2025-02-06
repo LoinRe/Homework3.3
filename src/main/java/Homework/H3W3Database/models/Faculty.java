@@ -3,18 +3,31 @@ package Homework.H3W3Database.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Faculty {
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     private Long id;
 
     private String name;
     private String color;
 
+    @OneToMany(mappedBy = "faculty") //факультет является владельцем этой связи
+    private Collection<Student> students; //один факультет имеет много студентов
+
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
     public Long getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package Homework.H3W3Database.service;
 
 import Homework.H3W3Database.exception.StudentNotFoundException;
+import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,14 @@ public class StudentServiceImpl implements StudentService {
                 .stream()
                 .filter(student -> Objects.equals(student.getAge(), age))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Faculty getFacultyByStudentId(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student != null) {
+            return student.getFaculty();
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package Homework.H3W3Database.service;
 
+import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 
 import java.util.Collection;
@@ -14,4 +15,6 @@ public interface StudentService {
     void removeStudent(Long id);
 
     Collection<Student> findByAge(Integer age);
+
+    Faculty getFacultyByStudentId(Long studentId); // Новый метод
 }
