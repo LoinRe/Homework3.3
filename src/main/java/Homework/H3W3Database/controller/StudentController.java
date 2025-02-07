@@ -7,9 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
-
 @RestController
 @RequestMapping("students")
 public class StudentController {
@@ -47,11 +44,6 @@ public class StudentController {
         studentService.removeStudent(id);
         return ResponseEntity.ok().build();
     }
-
-//    @GetMapping
-//    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) Integer age) {
-//        return ResponseEntity.ok(age > 0 ? studentService.findByAge(age) : Collections.emptyList());
-//    }
 
     //нужно получить факультет студента
     @GetMapping("/{id}/faculty")

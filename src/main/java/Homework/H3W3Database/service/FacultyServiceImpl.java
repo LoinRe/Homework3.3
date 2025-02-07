@@ -1,12 +1,11 @@
 package Homework.H3W3Database.service;
 
-import Homework.H3W3Database.exception.FacultyNotFoundException;
 import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.repository.FacultyRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,8 +26,6 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty getFaculty(Long id) {
-//        return facultyRepository.findById(id)
-//                .orElseThrow(() -> new FacultyNotFoundException("Faculty not found"));
         return facultyRepository.findById(id).orElse(null);
     }
 
@@ -42,7 +39,7 @@ public class FacultyServiceImpl implements FacultyService {
         facultyRepository.deleteById(id);
     }
 
-    public Collection<Faculty> findByColor(String color) {
+    public List<Faculty> findByColor(String color) {
         return facultyRepository
                 .findAll()
                 .stream()
@@ -51,7 +48,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Collection<Student> getStudentsByFacultyId(Long facultyId) {
+    public List<Student> getStudentsByFacultyId(Long facultyId) {
         Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
         if (faculty != null) {
             return faculty.getStudents();

@@ -8,8 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("Faculties")
@@ -49,17 +48,10 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping
-//    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
-//        return ResponseEntity.ok(color != null && !color.isBlank() ?
-//                facultyService.findByColor(color) :
-//                Collections.emptyList());
-//    }
-
     // Получение студентов факультета
     @GetMapping("/{id}/students")
-    public ResponseEntity<Collection<Student>> getStudentsByFacultyId(@PathVariable Long id) {
-        Collection<Student> students = facultyService.getStudentsByFacultyId(id);
+    public ResponseEntity<List<Student>> getStudentsByFacultyId(@PathVariable Long id) {
+        List<Student> students = facultyService.getStudentsByFacultyId(id);
         if (students == null || students.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
