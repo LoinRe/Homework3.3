@@ -1,8 +1,6 @@
 package Homework.H3W3Database.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -15,6 +13,18 @@ public class Student {
     private String name;
     private int age;
 
+    //ключ на нужный факультет хранится
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;// много студентов связаны с одним факультетом
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
 
     public String getName() {
         return name;

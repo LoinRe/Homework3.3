@@ -1,11 +1,11 @@
 package Homework.H3W3Database.service;
 
-import Homework.H3W3Database.exception.StudentNotFoundException;
+import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -26,8 +26,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudent(Long id) {
-//        return studentRepository.findById(id)
-//                .orElseThrow(() -> new StudentNotFoundException("Student wasn't found"));
         return studentRepository.findById(id).orElse(null);
     }
 
@@ -41,11 +39,20 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> findByAge(Integer age) {
+    public List<Student> findByAge(Integer age) {
         return studentRepository
                 .findAll()
                 .stream()
                 .filter(student -> Objects.equals(student.getAge(), age))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Faculty getFacultyByStudentId(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student != null) {
+            return student.getFaculty();
+        }
+        return null;
     }
 }

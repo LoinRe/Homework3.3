@@ -1,13 +1,11 @@
 package Homework.H3W3Database.controller;
 
+import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("students")
@@ -47,9 +45,14 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) Integer age) {
-        return ResponseEntity.ok(age > 0 ? studentService.findByAge(age) : Collections.emptyList());
+    //нужно получить факультет студента
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable Long id) {
+        Faculty faculty = studentService.getFacultyByStudentId(id);
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 }
 
