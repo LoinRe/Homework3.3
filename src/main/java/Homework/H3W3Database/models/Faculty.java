@@ -21,6 +21,13 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty") //факультет является владельцем этой связи
     private List<Student> students; //один факультет имеет много студентов
 
+    public Faculty(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
+
+    public Faculty() {}
+
     public List<Student> getStudents() {
         return students;
     }
