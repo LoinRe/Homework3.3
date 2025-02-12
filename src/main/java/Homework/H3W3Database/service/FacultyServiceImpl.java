@@ -14,7 +14,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     private final FacultyRepository facultyRepository;
 
-    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository) { //Если неправильно написано, может все покрашить
         this.facultyRepository = facultyRepository;
     }
 

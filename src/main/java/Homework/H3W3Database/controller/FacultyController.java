@@ -3,7 +3,6 @@ package Homework.H3W3Database.controller;
 import Homework.H3W3Database.models.Faculty;
 import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.service.FacultyService;
-import Homework.H3W3Database.service.FacultyServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("Faculties")
+@RequestMapping("/faculties")
 public class FacultyController {
     private FacultyService facultyService;
 
-    public FacultyController(FacultyServiceImpl facultyService) {
+    public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
 
@@ -24,7 +23,7 @@ public class FacultyController {
         Faculty faculty = facultyService.getFaculty(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
-        }
+        };
         return ResponseEntity.ok(faculty);
     }
 

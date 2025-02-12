@@ -1,5 +1,6 @@
 package Homework.H3W3Database.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,7 +17,15 @@ public class Student {
     //ключ на нужный факультет хранится
     @ManyToOne
     @JoinColumn(name = "faculty_id")
+    @JsonBackReference // Для предотвращения рекурсии
     private Faculty faculty;// много студентов связаны с одним факультетом
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student() {}
 
     public Faculty getFaculty() {
         return faculty;
@@ -34,7 +43,7 @@ public class Student {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

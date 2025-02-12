@@ -1,5 +1,6 @@
 package Homework.H3W3Database.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -19,7 +20,15 @@ public class Faculty {
     private String color;
 
     @OneToMany(mappedBy = "faculty") //факультет является владельцем этой связи
+    @JsonManagedReference // Указывает, что это "управляемая" часть связи (предотвращаем рекурсию)!!
     private List<Student> students; //один факультет имеет много студентов
+
+    public Faculty() {}  //ОБЯЗАТЕЛЬНО ПУСТОЙ ДОЛЖЕН БЫТЬ
+
+    public Faculty(String name, String color) {   //ОБЯЗАТЕЛЬНО ДЛЯ ТЕСТОВ
+        this.name = name;
+        this.color = color;
+    }
 
     public List<Student> getStudents() {
         return students;
