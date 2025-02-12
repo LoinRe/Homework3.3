@@ -18,6 +18,13 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;// много студентов связаны с одним факультетом
 
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student() {}
+
     public Faculty getFaculty() {
         return faculty;
     }
@@ -34,7 +41,7 @@ public class Student {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
