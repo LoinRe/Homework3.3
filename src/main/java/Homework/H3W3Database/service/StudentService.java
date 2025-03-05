@@ -17,4 +17,11 @@ public interface StudentService {
     List<Student> findByAge(Integer age);
 
     Faculty getFacultyByStudentId(Long studentId); // Новый метод
+
+    // Новые методы
+    int getAmount();
+
+    int getAverageAge();
+
+    List<Student> getLastFiveStudents();
 }

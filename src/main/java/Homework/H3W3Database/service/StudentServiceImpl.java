@@ -55,4 +55,22 @@ public class StudentServiceImpl implements StudentService {
         }
         return null;
     }
+
+    // Реализация новых методов
+    @Override
+    public int getAmount() {
+        return studentRepository.getAmountOfStudents();
+    }
+
+    @Override
+    public int getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    @Override
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.getLastFiveStudents();
+    }
 }
+
+
