@@ -12,6 +12,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -144,5 +147,63 @@ public class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/students/1/faculty"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
+    }
+
+
+    //Новые тесты
+    // Тест для GET /students/get-amount
+    @Test
+    public void testGetAmountOfStudents() throws Exception {
+        when(studentService.getAmount()).thenReturn(42); // Предположим, что в базе 42 студента
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/students/get-amount"))
+                .andDo(print())
+                // Assert
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(42)); // Проверяем, что возвращается число 42
+    }
+
+    // Тест для GET /students/get-average-age
+    @Test
+    public void testGetAverageAge() throws Exception {
+        when(studentService.getAverageAge()).thenReturn(20); // Предположим, средний возраст 20
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/students/get-average-age"))
+                .andDo(print())
+                // Assert
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(20)); // Проверяем, что возвращается число 20
+    }
+
+    // Тест для GET /students/get-5-last-students (успешный случай)
+    @Test
+    public void testGetLastFiveStudentsSuccess() throws Exception {
+        Student student1 = new Student("Harry Potter", 17);
+        Student student2 = new Student("Hermione Granger", 18);
+        List<Student> lastFiveStudents = List.of(student1, student2); // Меньше 5 для примера
+        when(studentService.getLastFiveStudents()).thenReturn(lastFiveStudents);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/students/get-5-last-students"))
+                .andDo(print())
+                // Assert
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2)) // Проверяем длину списка
+                .andExpect(jsonPath("$[0].name").value("Harry Potter"))
+                .andExpect(jsonPath("$[0].age").value(17))
+                .andExpect(jsonPath("$[1].name").value("Hermione Granger"))
+                .andExpect(jsonPath("$[1].age").value(18));
+    }
+
+    // Тест для GET /students/get-5-last-students (случай, когда студентов нет)
+    @Test
+    public void testGetLastFiveStudentsEmpty() throws Exception {
+        // Arrange
+        when(studentService.getLastFiveStudents()).thenReturn(Collections.emptyList());
+
+        // Act
+        mockMvc.perform(MockMvcRequestBuilders.get("/students/get-5-last-students"))
+                .andDo(print())
+                // Assert
+                .andExpect(status().isNoContent());
     }
 }
