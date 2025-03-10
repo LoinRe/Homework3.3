@@ -5,6 +5,8 @@ import Homework.H3W3Database.models.Student;
 import Homework.H3W3Database.repository.AvatarRepository;
 import Homework.H3W3Database.repository.StudentRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarServiceImpl implements AvatarService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
 
@@ -38,6 +42,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Начало загрузки аватара для студента с ID {}.", studentId); //HW4.4
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -57,6 +62,8 @@ public class AvatarServiceImpl implements AvatarService {
         avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(generateDataForDB(filePath));
         avatarRepository.save(avatar);
+
+        logger.info("Аватар для студента с ID {} успешно загружен.", studentId);
     }
 
     @Override
@@ -66,7 +73,10 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public List<Avatar> findAll(Integer pageNumber, Integer size) {
+        logger.info("Поиск всех аватаров с использованием пагинации. Страница: {}, Размер: {}", pageNumber, size);
         PageRequest pageRequest = PageRequest.of(pageNumber, size);
+        logger.info("Поиск успешно завершен. Найдено {} аватаров.",
+                avatarRepository.findAll(pageRequest).getContent().size());
         return avatarRepository.findAll(pageRequest).getContent();
     }
 
