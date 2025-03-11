@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -79,10 +80,10 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    //метод доработан
     public int getSum() {
-        return Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
+        return IntStream.rangeClosed(1, 1_000_000)
                 .parallel() // Параллельная обработка для ускорения
-                .reduce(0, Integer::sum);
+                .sum();
     }
 }
