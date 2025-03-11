@@ -76,5 +76,16 @@ public class StudentController {
         }
         return ResponseEntity.ok(lastFiveStudents);
     }
+
+    //HW4.5
+    @GetMapping("/get-studentsName-startsFromA")
+    public ResponseEntity<List<String>> getStudentsNameIsStartsFromA() {
+        return ResponseEntity.ok(studentService.getStudentsNameStartsWithA());
+    }
+
+    @GetMapping("/get-average-age-of-students")
+    public ResponseEntity<Double> getAverageAgeStreamAPI() {
+        return ResponseEntity.ok(studentService.getAverageAgeOfStudents());
+    }
 }
 

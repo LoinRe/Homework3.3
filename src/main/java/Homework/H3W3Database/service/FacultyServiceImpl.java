@@ -7,9 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -64,5 +67,23 @@ public class FacultyServiceImpl implements FacultyService {
             return faculty.getStudents();
         }
         return null;
+    }
+
+    //HW4.5
+    @Override
+    public String getLongestFacultyName() {
+        logger.info("Was invoked method - getLongestFacultyName");
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElseThrow();
+    }
+
+    @Override
+    //метод доработан
+    public int getSum() {
+        return IntStream.rangeClosed(1, 1_000_000)
+                .parallel() // Параллельная обработка для ускорения
+                .sum();
     }
 }

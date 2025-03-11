@@ -83,6 +83,28 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getLastFiveStudents() {
         return studentRepository.getLastFiveStudents();
     }
+
+
+    //HW4.5
+    @Override
+    public List<String> getStudentsNameStartsWithA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(name -> name.startsWith("A"))
+                .sorted()
+                .toList();
+    }
+
+    @Override
+    public Double getAverageAgeOfStudents() {
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
+    }
+
+
 }
 
 
