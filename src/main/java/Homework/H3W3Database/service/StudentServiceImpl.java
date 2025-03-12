@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,6 +83,56 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getLastFiveStudents() {
         return studentRepository.getLastFiveStudents();
+    }
+
+
+    //HW4.6
+    @Override
+    public void printStudentsNamesWithThreads() {
+        List<Student> studentList = studentRepository.findAll();
+
+        System.out.println(studentList.get(0).getName());
+        System.out.println(studentList.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println(studentList.get(2).getName());
+            System.out.println(studentList.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(studentList.get(4).getName());
+            System.out.println(studentList.get(5).getName());
+        }).start();
+    }
+
+
+    @Override
+    public void printStudentsNamesWithSynchronizedThreads() {
+        List<Student> studentList = studentRepository.findAll();
+
+        // Основной поток: первые два имени
+        printStudentName(studentList);
+        printStudentName(studentList);
+
+        // Параллельный поток 1: третий и четвертый студенты
+        new Thread(() -> {
+            printStudentName(studentList);
+            printStudentName(studentList);
+        }).start();
+
+        // Параллельный поток 2: пятый и шестой студенты
+        new Thread(() -> {
+            printStudentName(studentList);
+            printStudentName(studentList);
+        }).start();
+    }
+
+    private final AtomicInteger count = new AtomicInteger(0);
+
+    @Override
+    public synchronized void printStudentName(List<Student> studentList) {
+        int currentIndex = count.getAndIncrement();
+        System.out.println(studentList.get(currentIndex).getName() + " count " + currentIndex);
     }
 }
 
