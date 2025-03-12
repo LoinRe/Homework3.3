@@ -76,5 +76,19 @@ public class StudentController {
         }
         return ResponseEntity.ok(lastFiveStudents);
     }
+
+
+    //HW4.6
+    @GetMapping("/students/print-parallel")
+    public ResponseEntity<String> printStudentsNamesWithThreads() {
+        studentService.printStudentsNamesWithThreads();
+        return ResponseEntity.ok("Результат в консоли");
+    }
+
+    @GetMapping("/students/print-synchronized")
+    public ResponseEntity<String> printStudentsNamesWithSynchronizedThreads() {
+        studentService.printStudentsNamesWithSynchronizedThreads();
+        return ResponseEntity.ok("Результат в консоли");
+    }
 }
 

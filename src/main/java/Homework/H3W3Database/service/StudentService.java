@@ -24,4 +24,11 @@ public interface StudentService {
     int getAverageAge();
 
     List<Student> getLastFiveStudents();
+
+    //HW4.6
+    void printStudentsNamesWithThreads();
+
+    void printStudentsNamesWithSynchronizedThreads();
+
+    void printStudentName(List<Student> studentList);
 }
